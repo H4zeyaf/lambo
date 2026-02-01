@@ -212,7 +212,7 @@ let car;
 const loader = new GLTFLoader();
 
 loader.load(
-    '/2024_lamborghini_revuelto/scene.gltf',
+    `${import.meta.env.BASE_URL}2024_lamborghini_revuelto/scene.gltf`,
     function (gltf) {
         car = gltf.scene;
 
