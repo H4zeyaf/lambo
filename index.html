@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revuelto - Lamborghini</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Global 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Watermark (behind car canvas) -->
+    <div class="watermark-wrapper">
+        <div class="watermark">
+            <span class="wm-letter wm-left">R</span><span class="wm-letter wm-left">E</span><span
+                class="wm-letter wm-left">V</span><span class="wm-letter wm-left">U</span><span
+                class="wm-letter wm-right">E</span><span class="wm-letter wm-right">L</span><span
+                class="wm-letter wm-right">T</span><span class="wm-letter wm-right">O</span>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-text">LAMBORGHINI</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">LAMBORGHINI</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#design">Design</a></li>
+            <li><a href="#specs">Specs</a></li>
+            <li><a href="#performance">Performance</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section hero" id="hero">
+
+        <div class="hero-content">
+            <div class="hero-tag">Beyond The Now</div>
+            <h1 class="hero-title">FACTS & FIGURES</h1>
+            <p class="hero-subtitle">The first High Performance Electrified Vehicle (HPEV) hybrid super sports car.
+                Unleashing a new era of performance and driving emotion.</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-label">Speed</div>
+                <div class="stat-value"><span class="animate-number" data-target="350">0</span> Kph</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Torque</div>
+                <div class="stat-value"><span class="animate-number" data-target="900">0</span> Nm</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Power</div>
+                <div class="stat-value"><span class="animate-number" data-target="1015">0</span> CV</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Left Content) -->
+    <section class="section features" id="features">
+        <div class="content-container left-align">
+            <h2 class="section-title">The Hybrid Era</h2>
+            <div class="feature-card reveal">
+                <h3 class="feature-title">Pure Emotion</h3>
+                <p class="feature-subtitle">The Revuelto defines a new paradigm in terms of performance, sportiness and
+                    driving pleasure from its unprecedented new architecture; innovative design; maximum efficiency
+                    aerodynamics;
+                    and a new carbon frame concept.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3 class="feature-title">V12 Evolution</h3>
+                <p class="feature-subtitle">An output of 1015 CV is delivered from the combined power of an entirely new
+                    combustion engine together with three electric motors, alongside a double-clutch gearbox that makes
+                    its debut
+                    on a 12-cylinder Lamborghini for the first time.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3 class="feature-title">Iconic Lines</h3>
+                <p class="feature-subtitle">The signature Y-shape lights and hexagon exhaust ports are the visual
+                    manifestation of a revolution in design, keeping the unmistakable Lamborghini DNA while pushing it
+                    into the
+                    future.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Section (Split Content, Top-Down View) -->
+    <section class="section design" id="design">
+        <div class="split-container">
+            <div class="split-side left reveal">
+                <h2>AERODYNAMICS REFINED</h2>
+                <p>Efficiency meets aggression. Every line serves a purpose, channeling air to cool components and
+                    generate massive downforce. The active rear wing adjusts automatically to driving modes, optimizing
+                    drag and stability at high speeds.</p>
+                <div class="design-detail">
+                    <span class="detail-label">Downforce Efficiency</span>
+                    <span class="detail-val">+61%</span>
+                </div>
+            </div>
+            <!-- Car is in the middle -->
+            <div class="split-side right reveal">
+                <h2>MONOFUSELAGE</h2>
+                <p>Drawing inspiration from aeronautics, the chassis reduces weight while drastically increasing
+                    torsional stiffness. The entire front section is made of Forged Composites, a special material
+                    patented
+                    by Lamborghini.</p>
+                <div class="design-detail">
+                    <span class="detail-label">Torsional Stiffness</span>
+                    <span class="detail-val">+25%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs Section (Right Content) -->
+    <section class="section specs" id="specs">
+        <div class="content-container right-align">
+            <div class="specs-text reveal">
+                <h2>PREMIUM<br>ARCHITECTURE</h2>
+                <p>The Revuelto features a carbon fiber monocoque structure, delivering exceptional rigidity and
+                    lightweight performance. This is the first chassis with a monolithic rocker ring made of carbon
+                    fiber.</p>
+                <p class="specs-desc">The specific power of 127 CV/liter is the highest in the history of Lamborghini's
+                    12-cylinder engines, while the maximum torque of 725 Nm corresponds to an enthralling sound.</p>
+                <div class="specs-highlight">
+                    <div class="highlight-item">
+                        <h3><span class="animate-number" data-target="2.5" data-decimals="1">0</span>s</h3>
+                        <span>0-100 km/h</span>
+                    </div>
+                    <div class="highlight-item">
+                        <h3><span class="animate-number" data-target="194">0</span></h3>
+                        <span>g/km Efficiency</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Section (Bottom Content) -->
+    <section class="section performance" id="performance">
+        <div class="performance-header reveal">
+            <h2>THE HEART OF THE BEAST</h2>
+            <p>The naturally aspirated 6.5L V12 engine stands as a masterpiece of engineering, lighter and more powerful
+                than ever before. Combined with three electric motors, it provides immediate torque response.</p>
+        </div>
+        <div class="performance-grid">
+            <div class="perf-card reveal">
+                <div class="perf-info">
+                    <h4>Displacement</h4>
+                    <p>6498 cm³</p>
+                </div>
+                <div class="perf-value">V12</div>
+            </div>
+            <div class="perf-card reveal">
+                <div class="perf-info">
+                    <h4>Total Power</h4>
+                    <p>1015 CV</p>
+                </div>
+                <div class="perf-value">HPEV</div>
+            </div>
+            <div class="perf-card reveal">
+                <div class="perf-info">
+                    <h4>Top Speed</h4>
+                    <p>>350 km/h</p>
+                </div>
+                <div class="perf-value">MAX</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta" id="cta">
+        <h2 class="reveal">THE FUTURE IS HERE</h2>
+        <p class="reveal">Experience the pinnacle of automotive engineering. The Revuelto represents a new era where
+            electrification meets pure Lamborghini DNA — uncompromising performance meets sustainable innovation.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">HZ</div>
+            <div class="footer-copy">© 2024 GOUYFELYANE HAMZA</div>
+        </div>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>

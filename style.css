@@ -1,0 +1,608 @@
+:root {
+    --bg-primary: #2a303c;
+    --bg-dark: #1e2329;
+    --bg-darker: #15191e;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --accent: #ff6b00;
+    --accent-blue: #3b82f6;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 3D Canvas - Fixed Background */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    /* GPU acceleration hints */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Loading Screen */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-darker);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.loader-bar {
+    width: 200px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.loader-progress {
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    animation: load 2s ease forwards;
+}
+
+@keyframes load {
+    to {
+        width: 100%;
+    }
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0;
+    /* Start hidden - anime.js will animate in */
+}
+
+.nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-cta {
+    padding: 12px 28px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-cta:hover {
+    background: var(--accent);
+    color: var(--bg-darker);
+}
+
+/* Base Section Style */
+.section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    padding: 120px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+    /* Above canvas */
+    pointer-events: none;
+    /* Let clicks pass through empty areas */
+}
+
+.section>* {
+    pointer-events: auto;
+    /* Re-enable clicks on actual content */
+}
+
+/* Hero Section */
+.hero {
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.watermark-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.watermark {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(7rem, 12vw, 14rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #ff6a00b7;
+    text-shadow:
+        0 0 40px rgba(255, 106, 0, 0.3),
+        0 0 80px rgba(255, 106, 0, 0.2),
+        0 0 120px rgba(255, 106, 0, 0.1);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wm-letter {
+    display: inline-block;
+    opacity: 0;
+}
+
+.wm-left {
+    transform: translateX(-150px);
+}
+
+.wm-right {
+    transform: translateX(150px);
+}
+
+.watermark.animated {
+    /* animation: watermarkPulse 4s ease-in-out infinite alternate; DISABLED for performance */
+}
+
+@keyframes watermarkPulse {
+    0% {
+        text-shadow:
+            0 0 40px rgba(255, 106, 0, 0.3),
+            0 0 80px rgba(255, 106, 0, 0.2),
+            0 0 120px rgba(255, 106, 0, 0.1);
+    }
+
+    100% {
+        text-shadow:
+            0 0 60px rgba(255, 106, 0, 0.5),
+            0 0 100px rgba(255, 106, 0, 0.3),
+            0 0 150px rgba(255, 106, 0, 0.2);
+    }
+}
+
+.hero-content {
+    text-align: center;
+    margin-top: 100px;
+}
+
+/* Start hidden - anime.js will animate in */
+.hero-content>*,
+.stat-item {
+    opacity: 0;
+}
+
+.hero-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.stats-container {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Content Containers */
+.content-container {
+    max-width: 500px;
+}
+
+.left-align {
+    margin-right: auto;
+    /* Pushes content to left */
+    margin-left: 5%;
+}
+
+.right-align {
+    margin-left: auto;
+    /* Pushes content to right */
+    margin-right: 5%;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+/* Features (Left) */
+.features .feature-card {
+    background: rgba(21, 25, 30, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.features .feature-card:hover {
+    transform: translateX(10px);
+    border-color: var(--accent);
+}
+
+.feature-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.feature-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Design (Split) */
+.design {
+    display: flex;
+    align-items: center;
+}
+
+.split-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.split-side {
+    max-width: 350px;
+    background: rgba(21, 25, 30, 0.6);
+    backdrop-filter: blur(5px);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.split-side h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.split-side p {
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.design-detail {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.detail-val {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Specs (Right) */
+.specs-text {
+    background: rgba(21, 25, 30, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-left: 3px solid var(--accent);
+}
+
+.specs-text h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.specs-text p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.specs-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.specs-highlight {
+    display: flex;
+    gap: 40px;
+    margin-top: 10px;
+}
+
+.highlight-item h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    color: var(--accent);
+}
+
+/* Performance (Bottom/Center) */
+.performance {
+    justify-content: flex-end;
+    padding-bottom: 100px;
+}
+
+.performance-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.performance-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.performance-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.performance-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.perf-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    padding: 20px 40px;
+    border-radius: 50px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 180px;
+}
+
+.perf-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.perf-info h4 {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+/* CTA */
+.cta {
+    background: linear-gradient(to top, var(--bg-darker), transparent);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cta h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.cta p {
+    max-width: 600px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.cta-btn {
+    padding: 20px 60px;
+    background: var(--accent);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cta-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Footer style unchanged but ensuring it has background */
+.footer {
+    position: relative;
+    z-index: 10;
+    background: var(--bg-darker);
+    padding: 50px 60px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
+}
+
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 0 15px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--text-primary);
+}
+
+/* Default state for revealing elements handled by GSAP now
+   But we can set initial to opacity 0 to be safe */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .split-container {
+        flex-direction: column;
+        gap: 300px;
+        /* Space for car in middle */
+    }
+
+    .section {
+        padding: 80px 30px;
+    }
+}
