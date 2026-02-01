@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    base: '/lambo_showcase/', // Replace with your repository name
+    base: '/lambo/', // Updated to match repository name
 })
